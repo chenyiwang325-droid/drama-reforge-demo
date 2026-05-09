@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>短剧出海逐分镜重置智能体 - Demo</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="app">
+  <nav class="topnav">
+    <div class="brand">DRAMA REFORGE</div>
+    <div class="steps">
+      <div class="step on" onclick="sw('p')"><span class="sn">1</span>项目界面</div>
+      <span class="sa">/</span>
+      <div class="step" onclick="sw('a')"><span class="sn">2</span>资产库界面</div>
+      <span class="sa">/</span>
+      <div class="step" onclick="sw('g')"><span class="sn">3</span>分镜内容生成</div>
+    </div>
+    <div class="tr">纳逗Pro v1.0</div>
+  </nav>
+
+  <main class="mn">
+
+    <!-- 1. 项目界面 -->
+    <div id="v-p" class="vw on">
+      <!-- 创建项目弹窗 -->
+      <div id="cpDlg" style="display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.35);z-index:100;align-items:center;justify-content:center">
+        <div style="background:var(--bg1);border:1px solid var(--bd);border-radius:8px;padding:24px 28px;width:480px;max-width:90vw">
+          <div style="font-size:16px;font-weight:700;margin-bottom:18px">创建项目</div>
+          <div style="margin-bottom:14px">
+            <div style="font-size:13px;color:var(--t2);margin-bottom:4px">项目名称</div>
+            <input type="text" value="非婚不可-欧美版" style="width:100%;padding:8px 12px;border:1px solid var(--bd);border-radius:4px;font-size:14px;font-family:inherit;outline:none;background:var(--bg1);color:var(--t1)">
+          </div>
+          <div style="display:flex;gap:12px;margin-bottom:14px">
+            <div style="flex:1">
+              <div style="font-size:13px;color:var(--t2);margin-bottom:4px">短剧ID</div>
+              <input type="text" value="drama_20260428_001" style="width:100%;padding:8px 12px;border:1px solid var(--bd);border-radius:4px;font-size:14px;font-family:inherit;outline:none;background:var(--bg1);color:var(--t1)">
+            </div>
+            <div style="flex:1">
+              <div style="font-size:13px;color:var(--t2);margin-bottom:4px">总集数</div>
+              <input type="text" value="65" style="width:100%;padding:8px 12px;border:1px solid var(--bd);border-radius:4px;font-size:14px;font-family:inherit;outline:none;background:var(--bg1);color:var(--t1)">
+            </div>
+          </div>
+          <div style="margin-bottom:18px">
+            <div style="font-size:13px;color:var(--t2);margin-bottom:4px">目标市场</div>
+            <div style="display:flex;gap:8px">
+              <button class="dir-opt on" onclick="selDir(this)">欧美</button>
+              <button class="dir-opt" onclick="selDir(this)">日韩</button>
+              <button class="dir-opt" onclick="selDir(this)">东南亚</button>
+            </div>
+          </div>
+          <div style="display:flex;justify-content:flex-end;gap:8px">
+            <button class="b" onclick="document.getElementById('cpDlg').style.display='none'">取消</button>
+            <button class="b ba" onclick="document.getElementById('cpDlg').style.display='none'">确认创建</button>
+          </div>
+        </div>
+      </div>
+      <div class="hd">
+        <div><div class="hd-t">非婚不可</div><div class="hd-s">全集分析与集数解析状态</div></div>
+        <div style="display:flex;gap:8px"><button class="b" onclick="document.getElementById('cpDlg').style.display='flex'">创建项目</button><button class="b">开始全集分析</button><button class="b bs">导出数据</button></div>
+      </div>
+      <div class="sr">
+        <div class="sc"><div class="sc-l">总集数</div><div class="sc-v">65</div></div>
+        <div class="sc"><div class="sc-l">识别角色</div><div class="sc-v">37</div></div>
+        <div class="sc"><div class="sc-l">识别场景</div><div class="sc-v">33</div></div>
+        <div class="sc"><div class="sc-l">分镜片段</div><div class="sc-v">842</div></div>
+      </div>
+      <div style="background:var(--bg1);border:1px solid var(--bd);border-radius:6px;padding:14px 18px;margin-bottom:16px">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+          <span style="font-size:14px;font-weight:600">全集介绍文本</span>
+          <span style="font-size:12px;color:var(--t3)">自动生成的全剧剧情概述与风格描述</span>
+        </div>
+        <div class="etx" style="height:180px;font-size:13px;line-height:1.7">【S01E01-S01E10】酒店服务生宋言之因撞破渣男男友出轨而买醉，阴差阳错与姜氏集团总裁姜砚城发生一夜情。恰逢与姜家有婚约的沈家千金入狱，姜砚城为继续合作，以五百万为条件让宋言之假扮沈知意与自己结婚。婚后，宋言之不仅要应对姜砚城的步步紧逼，还要在姜家老太太的寿宴上化解前男友的刁难以及表妹安萌的嫉妒与挑拨，两人在拉扯中逐渐产生情愫。
+
+【S01E11-S01E20】宋言之与姜砚城在老宅同房，感情升温。宋言之的赌徒父亲在医院闹事，姜砚城出面解围并霸气护妻，两人关系进一步拉近。安萌为了揭穿宋言之的假身份，安排了专访并找来哈佛校友林婷对质，同时逼迫宋言之拉小提琴。宋言之机智化解危机，但安萌的敌意愈发明显，随时准备将她赶出姜家。
+
+【S01E21-S01E30】宋言之成功瞒过安萌的试探，姜砚城对她的好感加深。老太太送来补品催生，两人同房。宋言之提出去姜氏集团基层工作，姜砚城暗中保护。宋言之在公司遇到员工因女儿重病违纪，姜砚城严厉开除，宋言之不解。林助理告知姜砚城母亲死于酒驾，宋言之深感内疚，主动示好并收养流浪狗，两人关系缓和。
+
+【S01E31-S01E40】宋言之与姜砚城在老城区调研，两人在路边吃烧烤，感情进一步升温。宋言之在老城区遭遇前男友段枫的绑架未遂，姜砚城及时赶到英雄救美，两人关系取得实质性突破。宋言之向闺蜜坦白自己喜欢上了姜砚城，并在闺蜜的鼓励下主动出击，深夜前往办公室送姜茶，霸气宣示主权，击退了前来纠缠的安萌。</div>
+      </div>
+      <div class="dir-bar">
+        <span class="dir-label">转化方向：</span>
+        <button class="dir-opt on" onclick="selDir(this)">欧美</button>
+        <button class="dir-opt" onclick="selDir(this)">日韩</button>
+        <button class="dir-opt" onclick="selDir(this)">东南亚</button>
+      </div>
+      <div style="background:var(--bg1);border:1px solid var(--bd);border-radius:6px;overflow:hidden;margin-bottom:16px">
+        <div style="display:flex;justify-content:space-between;align-items:center;padding:12px 18px;border-bottom:1px solid var(--bd)">
+          <span style="font-weight:600;font-size:15px">逐集解析状态看板 / 欧美方向</span>
+          <div style="display:flex;gap:8px"><button class="b bs">批量解析</button><button class="b bs">单集解析</button></div>
+        </div>
+        <div class="sbar">
+          <div><span class="dot dg"></span>已完成 47</div>
+          <div><span class="dot dy"></span>解析中 3</div>
+          <div><span class="dot dw"></span>待处理 15</div>
+          <div class="tlb-sp"></div>
+          <div>总进度 <span class="pb"><span class="pbf" style="width:72%"></span></span> 72%</div>
+        </div>
+        <div class="eb" id="ebd"></div>
+      </div>
+    </div>
+
+    <!-- 2. 资产库界面 -->
+    <div id="v-a" class="vw">
+      <div class="hd">
+        <div><div class="hd-t">资产库界面</div><div class="hd-s">非婚不可 / 欧美方向</div></div>
+      </div>
+      <div class="tabs">
+        <button class="tab on" onclick="stab('ch',this)">角色</button>
+        <button class="tab" onclick="stab('sc',this)">场景</button>
+        <button class="tab" onclick="stab('pr',this)">道具</button>
+        <button class="tab" onclick="stab('sb',this)">分镜</button>
+      </div>
+      <div class="tlb">
+        <input type="checkbox" class="ck" id="cka" onchange="togAll(this)">
+        <input type="text" placeholder="关键词搜索...">
+        <select><option>全部集数</option><option>S01E01</option><option>S01E02</option></select>
+        <div class="tlb-sp"></div>
+        <button class="b bs bg" id="bdel" disabled>删除条目</button>
+        <button class="b bs bg">补充条目</button>
+        <div class="tlb-sep"></div>
+        <button class="b bs bg" id="brc" disabled>重新转化勾选项</button>
+      </div>
+
+      <!-- 角色 -->
+      <div id="t-ch" class="tc">
+        <table class="tb2">
+          <thead><tr><th style="width:36px"></th><th style="width:170px">主服装图</th><th style="width:100px">角色中文名</th><th style="width:90px">转化名称</th><th>原始外观</th><th>转化外观</th><th style="width:180px">角色tag</th><th style="width:40px"></th></tr></thead>
+          <tbody>
+            <tr class="click" onclick="togEx('x1')">
+              <td onclick="event.stopPropagation()"><input type="checkbox" class="ck ci" onchange="uBB()"></td>
+              <td><div class="img-box">资产图</div></td>
+              <td style="font-weight:600">宋言之</td>
+              <td style="color:var(--ac)">Elena</td>
+              <td><div class="etx etx-s">东亚面孔年轻女性，黑发</div></td>
+              <td><div class="etx etx-s">25岁北欧裔白人女性，蜂蜜金色长卷发，蓝色杏眼，白皙带浅雀斑，气质清纯中带着倔强</div></td>
+              <td><span class="tg tg-i">31套服装</span><span class="tg tg-m">65集出场</span><span class="tg tg-a">清亮女声</span></td>
+              <td style="color:var(--t3);text-align:center;font-size:13px">+</td>
+            </tr>
+            <tr class="exr" id="x1"><td colspan="8">
+              <div class="exi">
+                <div class="exi-h"><span>服装列表 (31套)</span><button class="b bs ba">批量生成剩余服装</button></div>
+                <table class="stb">
+                  <thead><tr><th style="width:130px">资产图</th><th style="width:100px">服装中文名</th><th style="width:130px">服装转化名称</th><th>资产图提示词</th><th style="width:80px">服装tag</th><th style="width:100px">操作</th></tr></thead>
+                  <tbody>
+                    <tr>
+                      <td><div class="img-sm">资产图</div></td>
+                      <td>黑白露肩上衣短裙</td>
+                      <td style="color:var(--ac)">Elena_Outfit1</td>
+                      <td><div class="etx">电影级摄影风格，超写实，8K超高清，电影级光效，25岁白人女性，北欧裔，身形纤细修长，体态优雅，鹅蛋脸线条柔和，蜂蜜金色长卷发自然披散，细弯眉，杏眼蓝色瞳孔浓密纤长睫毛，高鼻梁挺拔，薄唇，白皙带浅雀斑，气质清纯中带着倔强，黑色交叉露肩长袖针织上衣，修身版型，内搭白色纯棉吊带背心，下穿黑色高腰挺括短裙，无明显配饰，搭配黑色哑光皮质高跟鞋，左区角色正脸特写面部占满左区五官发型配饰清晰无身体入镜，右区标准角色设定三视图横向排列侧视正视背视从头到脚完整无遮挡，特写与三视图同一角色100%一致，三视图占画面高度80%高度统一，浅灰色背景无阴影，超高清85mm焦距无畸变，无动作平视，中性表情眼神平静，自然站立双手自然下垂，无文字水印，解剖正确，手指不畸形，无多余肢体</div></td>
+                      <td><span class="tg tg-m">S01E01</span></td>
+                      <td><button class="b bs">重新生成</button></td>
+                    </tr>
+                    <tr>
+                      <td><div class="img-sm" style="color:var(--t3)">未生成</div></td>
+                      <td>酒店黑色西装制服</td>
+                      <td style="color:var(--ac)">Elena_Outfit3</td>
+                      <td><div class="etx">参考 @Elena_Outfit1 的人物面部与体型，服装变更为黑色修身西装制服。当前完整服饰：黑色修身西装外套，哑光混纺面料职业剪裁，内搭白色V领垂坠雪纺衬衫，下穿黑色包臀及膝裙，左胸佩戴金属员工名牌，黑色中跟皮鞋。左区角色正脸特写面部占满左区五官发型配饰清晰无身体入镜，右区标准角色设定三视图横向排列侧视正视背视从头到脚完整无遮挡。面部与 @Elena_Outfit1 100%一致，浅灰色背景无阴影，超高清，无文字水印，解剖正确</div></td>
+                      <td><span class="tg tg-m">S01E02-04</span></td>
+                      <td><button class="b bs ba">生成</button></td>
+                    </tr>
+                    <tr>
+                      <td><div class="img-sm" style="color:var(--t3)">未生成</div></td>
+                      <td>浅绿色刺绣旗袍</td>
+                      <td style="color:var(--ac)">Elena_Outfit7</td>
+                      <td><div class="etx">参考 @Elena_Outfit1 的人物面部与体型，服装变更为浅薄荷绿色无袖丝绸修身长裙。当前完整服饰：浅薄荷绿色无袖丝绸修身长裙，表面有精致的淡黄色花卉刺绣，修身剪裁侧边开叉，佩戴双层珍珠项链与珍珠耳环，白色尖头高跟鞋。左区角色正脸特写面部占满左区五官发型配饰清晰无身体入镜，右区标准角色设定三视图横向排列侧视正视背视从头到脚完整无遮挡。面部与 @Elena_Outfit1 100%一致，浅灰色背景无阴影，超高清，无文字水印，解剖正确</div></td>
+                      <td><span class="tg tg-m">S01E05-12</span></td>
+                      <td><button class="b bs ba">生成</button></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </td></tr>
+
+            <tr class="click" onclick="togEx('x2')">
+              <td onclick="event.stopPropagation()"><input type="checkbox" class="ck ci" onchange="uBB()"></td>
+              <td><div class="img-box">资产图</div></td>
+              <td style="font-weight:600">姜砚城</td>
+              <td style="color:var(--ac)">Victor</td>
+              <td><div class="etx etx-s">东亚面孔中年男性，霸总</div></td>
+              <td><div class="etx etx-s">35岁盎格鲁撒克逊裔白人男性，深棕色短发后梳，深蓝色眼睛，方形下颌，深邃眼窝，冷峻威严</div></td>
+              <td><span class="tg tg-i">23套服装</span><span class="tg tg-m">59集出场</span><span class="tg tg-a">低沉男声</span></td>
+              <td style="color:var(--t3);text-align:center;font-size:13px">+</td>
+            </tr>
+            <tr class="exr" id="x2"><td colspan="8">
+              <div class="exi">
+                <div class="exi-h"><span>服装列表 (23套)</span><button class="b bs ba">批量生成剩余服装</button></div>
+                <table class="stb">
+                  <thead><tr><th style="width:130px">资产图</th><th style="width:100px">服装中文名</th><th style="width:130px">服装转化名称</th><th>资产图提示词</th><th style="width:80px">服装tag</th><th style="width:100px">操作</th></tr></thead>
+                  <tbody>
+                    <tr>
+                      <td><div class="img-sm">资产图</div></td>
+                      <td>黑西装深灰衬衫</td>
+                      <td style="color:var(--ac)">Victor_BlackSuitGreyShirt</td>
+                      <td><div class="etx">参考 @Victor_BurgundySuit 的人物面部与体型，服装更换为黑色修身西装搭配深灰色衬衫。完整服饰：黑色修身西装外套，精纺羊毛面料，内搭深灰色挺括棉质衬衫，系深色暗纹真丝领带，下穿黑色西裤，佩戴金属腕表，黑色抛光皮鞋。左区角色正脸特写面部占满左区五官发型配饰清晰无身体入镜，右区标准角色设定三视图横向排列侧视正视背视从头到脚完整无遮挡。面部与 @Victor_BurgundySuit 100%一致，浅灰色背景无阴影，超高清，无文字水印，解剖正确。</div></td>
+                      <td><span class="tg tg-m">S01E02-04</span></td>
+                      <td><button class="b bs">重新生成</button></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </td></tr>
+
+            <tr><td><input type="checkbox" class="ck ci" onchange="uBB()"></td><td><div class="img-box">资产图</div></td><td>安萌</td><td style="color:var(--ac)">Chloe</td><td><div class="etx etx-s">东亚面孔年轻女性</div></td><td><div class="etx etx-s">24岁地中海裔白人女性，橄榄色肌肤，深棕色长发大波浪</div></td><td><span class="tg tg-i">5套服装</span><span class="tg tg-m">14集出场</span></td><td style="color:var(--t3);text-align:center;font-size:13px">+</td></tr>
+            <tr><td><input type="checkbox" class="ck ci" onchange="uBB()"></td><td><div class="img-box">资产图</div></td><td>沈逸尘</td><td style="color:var(--ac)">Julian</td><td><div class="etx etx-s">东亚面孔年轻男性，温润</div></td><td><div class="etx etx-s">28岁南欧裔白人男性，浅棕色微卷短发，暖棕色眼睛，笑容温和</div></td><td><span class="tg tg-i">4套服装</span><span class="tg tg-m">7集出场</span></td><td style="color:var(--t3);text-align:center;font-size:13px">+</td></tr>
+            <tr><td><input type="checkbox" class="ck ci" onchange="uBB()"></td><td><div class="img-box">资产图</div></td><td>林助理</td><td style="color:var(--ac)">Arthur</td><td><div class="etx etx-s">东亚面孔青年男性</div></td><td><div class="etx etx-s">28岁英裔白人男性，浅金色短发，戴银框眼镜，瘦削干练</div></td><td><span class="tg tg-i">2套服装</span><span class="tg tg-m">14集出场</span></td><td style="color:var(--t3);text-align:center;font-size:13px">+</td></tr>
+            <tr><td><input type="checkbox" class="ck ci" onchange="uBB()"></td><td><div class="img-box">资产图</div></td><td>姜老太太</td><td style="color:var(--ac)">Eleanor</td><td><div class="etx etx-s">东亚面孔老年女性</div></td><td><div class="etx etx-s">70岁英裔白人老妇人，银灰色盘发，威严端坐</div></td><td><span class="tg tg-i">4套服装</span><span class="tg tg-m">8集出场</span></td><td style="color:var(--t3);text-align:center;font-size:13px">+</td></tr>
+            <tr><td><input type="checkbox" class="ck ci" onchange="uBB()"></td><td><div class="img-box">资产图</div></td><td>段枫</td><td style="color:var(--ac)">Dylan</td><td><div class="etx etx-s">东亚面孔年轻男性</div></td><td><div class="etx etx-s">27岁爱尔兰裔白人男性，红棕色短发，痞气</div></td><td><span class="tg tg-i">3套服装</span><span class="tg tg-m">5集出场</span></td><td style="color:var(--t3);text-align:center;font-size:13px">+</td></tr>
+            <tr><td><input type="checkbox" class="ck ci" onchange="uBB()"></td><td><div class="img-box">资产图</div></td><td>阳阳</td><td style="color:var(--ac)">Mia</td><td><div class="etx etx-s">东亚面孔年轻女性</div></td><td><div class="etx etx-s">23岁拉丁裔女性，深棕色卷发，活泼开朗</div></td><td><span class="tg tg-i">3套服装</span><span class="tg tg-m">6集出场</span></td><td style="color:var(--t3);text-align:center;font-size:13px">+</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- 场景 -->
+      <div id="t-sc" class="tc" style="display:none">
+        <table class="tb2">
+          <thead><tr><th style="width:36px"></th><th style="width:170px">主状态图</th><th style="width:120px">场景中文名</th><th style="width:140px">场景转化名称</th><th>原始空间描述</th><th>转化空间描述</th><th style="width:140px">场景tag</th><th style="width:40px"></th></tr></thead>
+          <tbody>
+            <tr class="click" onclick="togEx('xs1')">
+              <td onclick="event.stopPropagation()"><input type="checkbox" class="ck ci" onchange="uBB()"></td>
+              <td><div class="img-box">资产图</div></td>
+              <td style="font-weight:600">姜家别墅客厅</td>
+              <td style="color:var(--ac)">Jiang Villa Living Room</td>
+              <td><div class="etx etx-s">中式奢华别墅客厅</div></td>
+              <td><div class="etx etx-s">欧美现代奢华别墅客厅，落地窗，米色布艺沙发，整体明亮通透</div></td>
+              <td><span class="tg tg-i">3个状态</span><span class="tg tg-m">15集出场</span></td>
+              <td style="color:var(--t3);text-align:center;font-size:13px">+</td>
+            </tr>
+            <tr class="exr" id="xs1"><td colspan="8">
+              <div class="exi">
+                <div class="exi-h"><span>状态列表 (3个)</span><button class="b bs ba">批量生成剩余状态</button></div>
+                <table class="stb">
+                  <thead><tr><th style="width:130px">资产图</th><th>原始状态描述</th><th>转化状态描述</th><th>资产图提示词</th><th style="width:100px">状态tag</th><th style="width:100px">操作</th></tr></thead>
+                  <tbody>
+                    <tr><td><div class="img-sm">资产图</div></td><td><div class="etx">白天明亮，自然光从落地窗射入为主光，冷白色顶灯辅助，整体明亮通透，米色布艺沙发，实木茶几</div></td><td><div class="etx">现代宽敞明亮大平层客厅，室内，白天。前景为抛光白色大理石中岛台与深色皮质沙发、大理石茶几，中景为展示礼服的金色人台模型与大型室内绿植，背景为整面的深色哑光木质书柜、巨大的落地玻璃窗与走廊。自然光从落地窗大面积斜射入为主光，暖白色LED顶灯辅助，整体明暗对比柔和，氛围奢华大气</div></td><td><div class="etx">电影级摄影风格，超写实，8K超高清，电影级光效，现代宽敞明亮大平层客厅，室内，白天，广角俯视45度视角，前景为抛光白色大理石中岛台与深色皮质沙发、大理石茶几，中景为展示礼服的金色人台模型与大型室内绿植，背景为整面的深色哑光木质书柜、巨大的落地玻璃窗与走廊动线开阔，深色皮质沙发，抛光大理石茶几，几何图案地毯，深色哑光木质书柜，自然光从落地窗大面积斜射入为主光，暖白色LED顶灯辅助，整体明暗对比柔和氛围奢华大气，主色调白色与原木色点缀深灰色，抛光大理石与哑光木质为主材质，空间结构清楚，可作分镜参考底图，无文字水印，超清</div></td><td><span class="tg tg-m">S01E05-06</span><span class="tg tg-m">S01E16</span></td><td><button class="b bs">重新生成</button></td></tr>
+                    <tr><td><div class="img-sm" style="color:var(--t3)">未生成</div></td><td><div class="etx">夜晚幽暗，暖色台灯为主光，整体昏暗，仅沙发区域有微弱光照</div></td><td><div class="etx">现代宽敞明亮大平层客厅，室内，夜晚。空间结构同白天，暖色落地灯与氛围灯从角落斜射入为主光，光线昏暗，明暗对比强烈，氛围私密</div></td><td><div class="etx">基于 @JiangVillaLivingRoom_DayBright 的完整空间布局，仅光照变为夜晚氛围幽暗，暖色落地灯与氛围灯从角落斜射入为主光，光线昏暗，明暗对比强烈氛围私密，广角俯视45度视角，空间结构与 @JiangVillaLivingRoom_DayBright 100%一致，超清，无文字水印</div></td><td><span class="tg tg-m">S01E21</span><span class="tg tg-m">S01E27</span></td><td><button class="b bs ba">生成</button></td></tr>
+                    <tr><td><div class="img-sm" style="color:var(--t3)">未生成</div></td><td><div class="etx">夜晚幽暗静谧，几乎无光源，仅窗帘缝隙透入微弱月光</div></td><td><div class="etx">现代宽敞明亮大平层客厅，室内，夜晚。空间结构不变，窗帘拉上。冷蓝色月光透过窗帘缝隙斜射入为主光，暖色落地灯辅助，整体明暗对比强烈，幽暗静谧</div></td><td><div class="etx">基于 @JiangVillaLivingRoom_DayBright 的完整空间布局，仅光照变为夜晚窗帘拉上氛围幽暗静谧，冷蓝色月光透过窗帘缝隙斜射入为主光，暖色落地灯辅助，整体明暗对比强烈幽暗静谧，广角俯视45度视角，空间结构与 @JiangVillaLivingRoom_DayBright 100%一致，超清，无文字水印</div></td><td><span class="tg tg-m">S01E04</span></td><td><button class="b bs ba">生成</button></td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </td></tr>
+
+            <tr class="click" onclick="togEx('xs2')">
+              <td onclick="event.stopPropagation()"><input type="checkbox" class="ck ci" onchange="uBB()"></td>
+              <td><div class="img-box">资产图</div></td>
+              <td style="font-weight:600">星叶酒店大堂与走廊</td>
+              <td style="color:var(--ac)">Starleaf Hotel Lobby and Corridor</td>
+              <td><div class="etx etx-s">中式奢华酒店大堂，暖色调，大理石地面，深色实木前台</div></td>
+              <td><div class="etx etx-s">冷白色LED顶灯为主光，大堂自然光辅助，深色实木前台，大理石地面，明亮通透</div></td>
+              <td><span class="tg tg-i">3个状态</span><span class="tg tg-m">12集出场</span></td>
+              <td style="color:var(--t3);text-align:center;font-size:13px">+</td>
+            </tr>
+            <tr class="exr" id="xs2"><td colspan="8"><div class="exi"><div class="exi-h"><span>状态列表 (3个)</span><button class="b bs ba">批量生成剩余状态</button></div><div style="color:var(--t3);font-size:13px;padding:4px 0">白天明亮前台 / 夜晚昏暗氛围 / 白天商务氛围</div></div></td></tr>
+
+            <tr><td><input type="checkbox" class="ck ci" onchange="uBB()"></td><td><div class="img-box">资产图</div></td><td>姜氏集团总裁办公室</td><td style="color:var(--ac)">Jiang Group Executive Office</td><td><div class="etx etx-s">中式风格总裁办公室</div></td><td><div class="etx etx-s">欧美现代高管办公室，深色实木办公桌，全景落地窗</div></td><td><span class="tg tg-i">2个状态</span><span class="tg tg-m">12集出场</span></td><td style="color:var(--t3);text-align:center;font-size:13px">+</td></tr>
+            <tr><td><input type="checkbox" class="ck ci" onchange="uBB()"></td><td><div class="img-box">资产图</div></td><td>姜家别墅卧室</td><td style="color:var(--ac)">Jiang Villa Bedroom</td><td><div class="etx etx-s">中式奢华主卧</div></td><td><div class="etx etx-s">欧美现代主卧，深色实木大床，丝绒窗帘</div></td><td><span class="tg tg-i">2个状态</span><span class="tg tg-m">8集出场</span></td><td style="color:var(--t3);text-align:center;font-size:13px">+</td></tr>
+            <tr><td><input type="checkbox" class="ck ci" onchange="uBB()"></td><td><div class="img-box">资产图</div></td><td>星叶酒店客房</td><td style="color:var(--ac)">Starleaf Hotel Room</td><td><div class="etx etx-s">高档酒店客房</div></td><td><div class="etx etx-s">欧美现代精品酒店客房，白色床品</div></td><td><span class="tg tg-i">2个状态</span><span class="tg tg-m">6集出场</span></td><td style="color:var(--t3);text-align:center;font-size:13px">+</td></tr>
+            <tr><td><input type="checkbox" class="ck ci" onchange="uBB()"></td><td><div class="img-box">资产图</div></td><td>姜家老宅庭院</td><td style="color:var(--ac)">Jiang Estate Garden</td><td><div class="etx etx-s">中式古典庭院</div></td><td><div class="etx etx-s">欧美古典庄园花园，修剪整齐的绿篱</div></td><td><span class="tg tg-i">3个状态</span><span class="tg tg-m">6集出场</span></td><td style="color:var(--t3);text-align:center;font-size:13px">+</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- 道具 -->
+      <div id="t-pr" class="tc" style="display:none">
+        <table class="tb2">
+          <thead><tr><th style="width:36px"></th><th style="width:130px">资产图</th><th style="width:110px">道具中文名</th><th style="width:140px">道具转化名称</th><th>原始描述</th><th>转化描述</th><th>资产图提示词</th><th style="width:100px">操作</th></tr></thead>
+          <tbody>
+            <tr><td><input type="checkbox" class="ck ci" onchange="uBB()"></td><td><div class="img-sm">资产图</div></td><td>钻戒</td><td style="color:var(--ac)">Diamond Ring</td><td><div class="etx etx-s">镶嵌钻石的银色订婚戒指</div></td><td><div class="etx">一枚银色镶钻戒指，圆形主钻，抛光金属戒圈泛着冷光</div></td><td><div class="etx">电影级摄影风格，超写实，8K超高清，电影级光效。主体：一枚银色镶钻戒指，圆形轮廓，抛光金属材质泛着冷光，中央镶嵌一颗璀璨的圆形主钻，表面无磨损。版式结构：标准物品三视图横向排列。摄影约束：浅灰纯色背景无阴影，85mm焦距无畸变</div></td><td><button class="b bs">重新生成</button></td></tr>
+            <tr><td><input type="checkbox" class="ck ci" onchange="uBB()"></td><td><div class="img-sm">资产图</div></td><td>孤品珍珠项链</td><td style="color:var(--ac)">Vintage Pearl Necklace</td><td><div class="etx etx-s">珍贵的珍珠项链</div></td><td><div class="etx">双层细密珍珠串联而成的项链，正中央镶嵌有一颗璀璨的圆形蓝宝石，带有精美的金属底座，散发着古典优雅的气息</div></td><td><div class="etx">电影级摄影风格，超写实，8K超高清，电影级光效。主体：双层环状轮廓，温润光泽的珍珠材质串联，正中央镶嵌一颗璀璨的抛光圆形蓝宝石，带有精美的金属底座。版式结构：标准物品三视图横向排列。摄影约束：浅灰纯色背景无阴影</div></td><td><button class="b bs">重新生成</button></td></tr>
+            <tr><td><input type="checkbox" class="ck ci" onchange="uBB()"></td><td><div class="img-sm">资产图</div></td><td>传家翡翠玉镯</td><td style="color:var(--ac)">Antique Emerald Gold Bangle</td><td><div class="etx etx-s">翡翠镶金传家玉镯</div></td><td><div class="etx">一只古董金镶祖母绿手镯，18K黄金材质雕刻着复古藤蔓花纹，镶嵌着温润通透的方形祖母绿宝石，带有岁月的痕迹</div></td><td><div class="etx">电影级摄影风格，超写实，8K超高清，电影级光效。主体：圆形环状轮廓，18K黄金抛光金属材质雕刻复古藤蔓花纹，表面微有氧化磨损痕迹，镶嵌着温润通透的方形祖母绿宝石。版式结构：标准物品三视图横向排列</div></td><td><button class="b bs">重新生成</button></td></tr>
+            <tr><td><input type="checkbox" class="ck ci" onchange="uBB()"></td><td><div class="img-sm" style="color:var(--t3)">未生成</div></td><td>乾隆古董花瓶</td><td style="color:var(--ac)">Antique French Porcelain Vase</td><td><div class="etx etx-s">乾隆青花瓷花瓶</div></td><td><div class="etx">法国塞夫尔风格的古董瓷花瓶，大型瓶身，光滑细腻的陶瓷材质布满繁复的皇家蓝色与金色花纹，并在关键节点镶嵌有红蓝宝石</div></td><td><div class="etx">电影级摄影风格，超写实，8K超高清，电影级光效。主体：大型流线型瓶身轮廓，光滑细腻的陶瓷材质，布满繁复的皇家蓝色与金色花纹，局部镶嵌红蓝宝石，表面完好无明显磨损。版式结构：标准物品三视图横向排列</div></td><td><button class="b bs ba">生成</button></td></tr>
+            <tr><td><input type="checkbox" class="ck ci" onchange="uBB()"></td><td><div class="img-sm" style="color:var(--t3)">未生成</div></td><td>金质婚戒</td><td style="color:var(--ac)">Gold Wedding Band</td><td><div class="etx etx-s">金色对戒</div></td><td><div class="etx">金质婚戒，圆形戒环约2mm宽度，18K黄金抛光金属材质，表面光滑但带有细微划痕，戒面内侧刻有细小英文字母</div></td><td><div class="etx">电影级摄影风格，超写实，8K超高清，电影级光效。主体：一枚金质婚戒，圆形戒环约2mm宽度，18K黄金抛光金属材质，表面光滑但带有细微划痕和微磨损痕迹，戒面内侧刻有细小英文字母。版式结构：标准物品三视图横向排列</div></td><td><button class="b bs ba">生成</button></td></tr>
+            <tr><td><input type="checkbox" class="ck ci" onchange="uBB()"></td><td><div class="img-sm" style="color:var(--t3)">未生成</div></td><td>生日蛋糕</td><td style="color:var(--ac)">Birthday Cake</td><td><div class="etx etx-s">多层生日蛋糕</div></td><td><div class="etx">一个精致的6寸巧克力慕斯生日蛋糕，表面撒有金箔碎，插着数字蜡烛，放置在白色的光滑陶瓷托盘上</div></td><td><div class="etx">电影级摄影风格，超写实，8K超高清，电影级光效。主体：6寸圆柱形轮廓，细腻的巧克力慕斯材质质感，表面撒有闪亮的金箔碎，顶部插着数字蜡烛，底部垫着光滑的白色陶瓷托盘，完好无损。版式结构：标准物品三视图横向排列</div></td><td><button class="b bs ba">生成</button></td></tr>
+            <tr><td><input type="checkbox" class="ck ci" onchange="uBB()"></td><td><div class="img-sm" style="color:var(--t3)">未生成</div></td><td>百威啤酒瓶</td><td style="color:var(--ac)">Budweiser Beer Can</td><td><div class="etx etx-s">百威啤酒瓶</div></td><td><div class="etx">红色铝制易拉罐装啤酒，表面有明显的白色Budweiser英文字母，金属材质表面光滑有冰冷的水珠</div></td><td><div class="etx">电影级摄影风格，超写实，8K超高清，电影级光效。主体：圆柱形易拉罐轮廓，红色光滑金属铝材质，表面印有白色Budweiser英文字母，外壁布满冰冷透明的水珠，无凹陷磨损。版式结构：标准物品三视图横向排列</div></td><td><button class="b bs ba">生成</button></td></tr>
+            <tr><td><input type="checkbox" class="ck ci" onchange="uBB()"></td><td><div class="img-sm" style="color:var(--t3)">未生成</div></td><td>小提琴</td><td style="color:var(--ac)">Violin</td><td><div class="etx etx-s">小提琴</div></td><td><div class="etx">一把复古木质小提琴，琴身呈现深棕色烤漆光泽，琴弦被故意弄断，散落在琴桥旁</div></td><td><div class="etx">电影级摄影风格，超写实，8K超高清，电影级光效。主体：经典的葫芦形琴身轮廓，深棕色光滑木质烤漆材质，带有自然的木纹，几根金属琴弦断裂散落在木质琴桥旁，琴身有轻微划痕。版式结构：标准物品三视图横向排列</div></td><td><button class="b bs ba">生成</button></td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- 分镜 -->
+      <div id="t-sb" class="tc" style="display:none">
+        <table class="tb2">
+          <thead><tr><th style="width:90px">集数</th><th style="width:80px">分镜片段数</th><th style="width:70px">对白数</th><th style="width:70px">总时长</th><th style="width:100px">转化状态</th><th>角色tag</th><th>场景tag</th><th style="width:180px">操作</th></tr></thead>
+          <tbody>
+            <tr class="click" onclick="togEx('xsb1')">
+              <td style="font-weight:600;color:var(--ac)">S01E01</td><td>12</td><td>18</td><td>3:24</td>
+              <td><span class="tg tg-o">已转化</span></td>
+              <td><span class="tg tg-a">Elena</span><span class="tg tg-a">Victor</span></td>
+              <td><span class="tg tg-i">别墅客厅</span><span class="tg tg-i">酒店大堂</span></td>
+              <td><button class="b bs" onclick="event.stopPropagation();sw('g')">生成分镜</button></td>
+            </tr>
+            <tr class="exr" id="xsb1"><td colspan="8">
+              <div class="exi">
+                <div class="exi-h"><span>S01E01 分镜片段列表</span></div>
+                <div class="seg-card">
+                  <div class="seg-card-h"><span class="seg-card-id">SEG01</span><span class="seg-card-time">00:00 - 00:08</span></div>
+                  <div class="sb-side">
+                    <div>
+                      <div class="seg-card-lbl">原始分镜文本</div>
+                      <div class="seg-card-tx">@[姜家别墅客厅]，自然光从落地窗斜射入为主光，冷白色顶灯辅助，整体明亮。0-8秒：固定机位，远景平拍，画面取景客厅全景，@[宋言之_黑白露肩上衣短裙]站在客厅中央，双手交叉于胸前，目光看向门口方向；@[姜砚城_黑西装深灰衬衫]从门口走入，步伐沉稳</div>
+                    </div>
+                    <div>
+                      <div class="seg-card-lbl">转化分镜文本</div>
+                      <div class="seg-card-tx" style="color:var(--ac)">@[Jiang Villa Living Room]，自然光从落地窗斜射入为主光，冷白色顶灯辅助，整体明亮。0-8秒：固定机位，远景平拍，画面取景客厅全景，@[Elena_Outfit1]站在客厅中央，双手交叉于胸前，目光看向门口方向；@[Victor_Outfit1]从门口走入，步伐沉稳</div>
+                    </div>
+                  </div>
+                </div>
+                <div class="seg-card">
+                  <div class="seg-card-h"><span class="seg-card-id">SEG04</span><span class="seg-card-time">00:31 - 00:46</span></div>
+                  <div class="sb-side">
+                    <div>
+                      <div class="seg-card-lbl">原始分镜文本</div>
+                      <div class="seg-card-tx">@[星叶酒店大堂与走廊]，冷白色LED顶灯为主光，大堂自然光辅助，整体明亮通透。0-5秒：固定机位，中景平拍，画面取景前台区域，深色实木前台横贯画面，@[宋言之_酒店黑色西装制服]坐在前台后整理文件；5-12秒：镜头横移，@[阳阳_白色西装外套]凑近前台，双手撑在桌面上</div>
+                    </div>
+                    <div>
+                      <div class="seg-card-lbl">转化分镜文本</div>
+                      <div class="seg-card-tx" style="color:var(--ac)">@[Starleaf Hotel Lobby and Corridor]，冷白色LED顶灯为主光，大堂自然光辅助，整体明亮通透。0-5秒：固定机位，中景平拍，画面取景前台区域，深色实木前台横贯画面，@[Elena_Outfit3]坐在前台后整理文件；5-12秒：镜头横移，@[Mia_White Suit Jacket]凑近前台，双手撑在桌面上</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </td></tr>
+            <tr>
+              <td style="font-weight:600;color:var(--ac)">S01E02</td><td>14</td><td>20</td><td>3:45</td>
+              <td><span class="tg tg-o">已转化</span></td>
+              <td><span class="tg tg-a">Elena</span><span class="tg tg-a">Victor</span><span class="tg tg-a">Mia</span></td>
+              <td><span class="tg tg-i">酒店大堂</span><span class="tg tg-i">会客厅</span></td>
+              <td><button class="b bs" onclick="event.stopPropagation();sw('g')">生成分镜</button></td>
+            </tr>
+            <tr>
+              <td style="font-weight:600">S01E03</td><td>11</td><td>16</td><td>3:12</td>
+              <td><span class="tg tg-w">未转化</span></td>
+              <td><span class="tg tg-a">Elena</span></td>
+              <td><span class="tg tg-i">酒店前台</span></td>
+              <td><button class="b bs" onclick="event.stopPropagation()">批量转化</button> <button class="b bs" onclick="event.stopPropagation()">重新转化</button></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- 3. 分镜内容生成界面 -->
+    <div id="v-g" class="vw">
+      <div class="hd">
+        <div><div class="hd-t">分镜内容生成界面</div><div class="hd-s">非婚不可 / 欧美方向</div></div>
+        <div style="display:flex;gap:8px">
+          <button class="b bs">批量生成（本集）</button>
+          <button class="b bs">全集预览</button>
+          <button class="b bs">下载视频文件</button>
+        </div>
+      </div>
+      <div class="gen-layout">
+        <!-- Left sidebar: episode selection -->
+        <div class="gen-side">
+          <div class="gen-side-box">
+            <div class="gen-side-title">集数选择</div>
+            <div class="gen-ep on">S01E02 (14段)</div>
+            <div class="gen-ep">S01E01 (12段)</div>
+            <div class="gen-ep">S01E03 (11段)</div>
+            <div class="gen-ep">S01E04 (10段)</div>
+            <div class="gen-ep">S01E05 (13段)</div>
+            <div class="gen-ep">S01E06 (9段)</div>
+            <div class="gen-ep">S01E07 (12段)</div>
+            <div class="gen-ep">S01E08 (11段)</div>
+            <div class="gen-ep" style="color:var(--t4)">S01E09</div>
+            <div class="gen-ep" style="color:var(--t4)">S01E10</div>
+            <div class="gen-ep" style="color:var(--t4)">...</div>
+          </div>
+        </div>
+        <div class="gen-main">
+          <!-- SEG04 - active -->
+          <div class="seg-card" style="border-color:var(--ac)">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
+              <div>
+                <span style="font-size:15px;font-weight:700;color:var(--ac)">SEG04</span>
+                <span style="font-size:12px;color:var(--t3);margin-left:10px">00:31 - 00:46</span>
+                <span style="font-size:12px;color:var(--t3);margin-left:10px">酒店大堂</span>
+                <span class="tg tg-a" style="margin-left:6px">Elena</span><span class="tg tg-a">Mia</span>
+              </div>
+            </div>
+            <div class="seg-body">
+              <div class="seg-prompt-col">
+                <div class="seg-card-lbl">分镜提示词</div>
+                <div class="etx etx-p">@[Starleaf Hotel Lobby and Corridor]，冷白色LED顶灯为主光，大堂自然光辅助，整体明亮通透。0-5秒：固定机位，中景平拍，画面取景前台区域，深色实木前台横贯画面，@[Elena_Hotel Black Suit Uniform]坐在前台后整理文件；5-12秒：镜头横移，@[Mia_White Suit Jacket]凑近前台，双手撑在桌面上，笑着说"Elena, why didn't you go on the blind date with the hot guy I recommended last night?"，接着撇嘴说"I stayed up all night waiting for the gossip."；12-15秒：近景切至@[Elena_Hotel Black Suit Uniform]，猛地抬头，眼睛睁大，脱口而出"What did you say?"，职场八卦氛围。</div>
+              </div>
+              <div class="seg-refs-col">
+                <div class="seg-card-lbl">参考</div>
+                <div class="ri"><div>Elena</div><div class="img-xs">img</div></div>
+                <div class="ri"><div>Mia</div><div class="img-xs">img</div></div>
+                <div class="ri"><div>Hotel</div><div class="img-xs">img</div></div>
+                <div class="ri" style="margin-top:2px"><button class="b bg" style="font-size:10px;padding:2px 6px">+ 添加参考</button></div>
+              </div>
+              <div class="seg-result-col">
+                <div class="vid-box">
+                  <div style="text-align:center;font-size:13px;color:var(--t3)">视频预览<br><span style="font-size:11px;color:var(--t4)">排队中 / 生成中</span></div>
+                </div>
+                <div class="seg-cfg-sm">
+                  <label>模型</label><select class="sel"><option>Kling v1.6</option><option>Runway Gen-3</option></select>
+                  <label>分辨率</label><select class="sel"><option>1080p</option></select>
+                  <label>帧率</label><select class="sel"><option>24fps</option></select>
+                  <label>时长</label><select class="sel"><option>15s</option></select>
+                </div>
+                <button class="b ba" style="width:100%">生成视频片段</button>
+              </div>
+            </div>
+          </div>
+          <div class="seg-add"><button>+ 添加分镜片段</button></div>
+          <!-- SEG01 -->
+          <div class="seg-card">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
+              <div>
+                <span style="font-size:15px;font-weight:700;color:var(--ac)">SEG01</span>
+                <span style="font-size:12px;color:var(--t3);margin-left:10px">00:00 - 00:08</span>
+                <span style="font-size:12px;color:var(--t3);margin-left:10px">别墅客厅</span>
+                <span class="tg tg-a" style="margin-left:6px">Elena</span><span class="tg tg-a">Victor</span>
+              </div>
+            </div>
+            <div class="seg-body">
+              <div class="seg-prompt-col">
+                <div class="seg-card-lbl">分镜提示词</div>
+                <div class="etx etx-p">@[Jiang Villa Living Room]，自然光从落地窗斜射入为主光，冷白色顶灯辅助，整体明亮。0-8秒：固定机位，远景平拍，画面取景客厅全景，@[Elena_Outfit1]站在客厅中央，双手交叉于胸前，目光看向门口方向；@[Victor_Outfit1]从门口走入，步伐沉稳，气场压迫。</div>
+              </div>
+              <div class="seg-refs-col">
+                <div class="seg-card-lbl">参考</div>
+                <div class="ri"><div>Elena</div><div class="img-xs">img</div></div>
+                <div class="ri"><div>Victor</div><div class="img-xs">img</div></div>
+                <div class="ri" style="margin-top:2px"><button class="b bg" style="font-size:10px;padding:2px 6px">+ 添加参考</button></div>
+              </div>
+              <div class="seg-result-col">
+                <div class="vid-box" style="border-style:dashed">
+                  <span style="font-size:13px;color:var(--t4)">待生成</span>
+                </div>
+                <div class="seg-cfg-sm">
+                  <label>模型</label><select class="sel"><option>Kling v1.6</option></select>
+                  <label>分辨率</label><select class="sel"><option>1080p</option></select>
+                  <label>帧率</label><select class="sel"><option>24fps</option></select>
+                  <label>时长</label><select class="sel"><option>8s</option></select>
+                </div>
+                <button class="b ba" style="width:100%">生成视频片段</button>
+              </div>
+            </div>
+          </div>
+          <div class="seg-add"><button>+ 添加分镜片段</button></div>
+          <!-- SEG05 - completed -->
+          <div class="seg-card">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
+              <div>
+                <span style="font-size:15px;font-weight:700;color:var(--ac)">SEG05</span>
+                <span style="font-size:12px;color:var(--t3);margin-left:10px">00:46 - 00:58</span>
+                <span style="font-size:12px;color:var(--t3);margin-left:10px">总裁办公室</span>
+                <span class="tg tg-a" style="margin-left:6px">Elena</span><span class="tg tg-a">Victor</span>
+              </div>
+            </div>
+            <div class="seg-body">
+              <div class="seg-prompt-col">
+                <div class="seg-card-lbl">分镜提示词</div>
+                <div class="etx etx-p">@[Jiang Group Executive Office]，白天明亮，全景落地窗自然光为主光，深色实木办公桌，皮质办公椅。0-6秒：镜头缓慢推近，中景，@[Victor_Outfit1]坐在办公桌后审阅文件，眉头微皱抬头；6-12秒：门被推开，@[Elena_Outfit3]紧张地走入办公室，站在办公桌前双手紧握，肩膀紧绷。</div>
+              </div>
+              <div class="seg-refs-col">
+                <div class="seg-card-lbl">参考</div>
+                <div class="ri"><div>Victor</div><div class="img-xs">img</div></div>
+                <div class="ri"><div>Elena</div><div class="img-xs">img</div></div>
+                <div class="ri" style="margin-top:2px"><button class="b bg" style="font-size:10px;padding:2px 6px">+ 添加参考</button></div>
+              </div>
+              <div class="seg-result-col">
+                <div class="vid-box" style="border-color:var(--ok)">
+                  <div style="text-align:center;font-size:13px;color:var(--ok)">已完成 - 点击预览</div>
+                </div>
+                <div class="seg-cfg-sm">
+                  <label>模型</label><select class="sel"><option>Kling v1.6</option></select>
+                  <label>分辨率</label><select class="sel"><option>1080p</option></select>
+                  <label>帧率</label><select class="sel"><option>24fps</option></select>
+                  <label>时长</label><select class="sel"><option>12s</option></select>
+                </div>
+                <button class="b ba" style="width:100%">生成视频片段</button>
+              </div>
+            </div>
+          </div>
+          <div class="seg-add"><button>+ 添加分镜片段</button></div>
+          <!-- SEG12 -->
+          <div class="seg-card" style="opacity:.55">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
+              <div>
+                <span style="font-size:15px;font-weight:700;color:var(--ac)">SEG12</span>
+                <span style="font-size:12px;color:var(--t3);margin-left:10px">02:16 - 02:24</span>
+                <span style="font-size:12px;color:var(--t3);margin-left:10px">会客厅</span>
+                <span class="tg tg-a" style="margin-left:6px">Elena</span><span class="tg tg-a">Victor</span>
+              </div>
+            </div>
+            <div class="seg-body">
+              <div class="seg-prompt-col">
+                <div class="seg-card-lbl">分镜提示词</div>
+                <div class="etx etx-p">@[Jiang Estate Reception Room]，自然光从落地窗斜射入为主光，冷白色顶灯辅助，整体明亮。0-8秒：镜头缓慢推近，近景双人，@[Victor_Black Suit]目光直视面前的@[Elena_Hotel Black Suit Uniform]，嘴角勾起一抹不易察觉的弧度，一字一句地说"The bride needs to be changed."，@[Elena_Hotel Black Suit Uniform]端着托盘的手微微一顿，满脸错愕，悬念反转氛围。</div>
+              </div>
+              <div class="seg-refs-col">
+                <div class="seg-card-lbl">参考</div>
+                <div class="ri"><div>Elena</div><div class="img-xs">img</div></div>
+                <div class="ri"><div>Victor</div><div class="img-xs">img</div></div>
+                <div class="ri" style="margin-top:2px"><button class="b bg" style="font-size:10px;padding:2px 6px">+ 添加参考</button></div>
+              </div>
+              <div class="seg-result-col">
+                <div class="vid-box" style="border-style:dashed">
+                  <span style="font-size:13px;color:var(--t4)">待生成</span>
+                </div>
+                <div class="seg-cfg-sm">
+                  <label>模型</label><select class="sel"><option>Kling v1.6</option></select>
+                  <label>分辨率</label><select class="sel"><option>1080p</option></select>
+                  <label>帧率</label><select class="sel"><option>24fps</option></select>
+                  <label>时长</label><select class="sel"><option>8s</option></select>
+                </div>
+                <button class="b ba" style="width:100%">生成视频片段</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>
