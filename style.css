@@ -128,17 +128,17 @@ body{font-family:'DM Sans','Noto Sans SC',sans-serif;background:var(--bg);color:
 .ar-exp-inner{padding:14px 20px;background:var(--bg2)}
 .ar-exp-hd{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;font-size:13px;font-weight:600;color:var(--t2)}
 .ar-exp-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:10px}
-.ar-exp-card{background:var(--bg1);border:1px solid var(--bd);border-radius:6px;overflow:hidden;transition:.1s}
+.ar-exp-card{background:var(--bg1);border:1px solid var(--bd);border-radius:6px;overflow:hidden;transition:.1s;display:flex;flex-direction:column}
 .ar-exp-card:hover{border-color:var(--ac)}
 .ar-exp-card img{width:100%;aspect-ratio:21/9;object-fit:cover;display:block}
 .ar-exp-card{position:relative}
-.ar-exp-card-body{padding:8px 10px}
+.ar-exp-card-body{padding:8px 10px;flex:1;display:flex;flex-direction:column}
 .ar-exp-card-name{font-size:11px;font-weight:600}
 .ar-exp-card-del{position:absolute;top:4px;right:4px;width:18px;height:18px;border-radius:50%;border:1px solid var(--bd);background:var(--bg1);cursor:pointer;font-size:10px;color:var(--t4);display:none;align-items:center;justify-content:center;padding:0;font-family:inherit;z-index:2}
 .ar-exp-card:hover .ar-exp-card-del{display:flex}
 .ar-exp-card-del:hover{border-color:var(--red);color:var(--red);background:var(--redd)}
 .ar-exp-card-en{font-size:10px;color:var(--ac);margin-bottom:4px}
-.ar-exp-card-acts{display:flex;gap:4px}
+.ar-exp-card-acts{display:flex;gap:4px;margin-top:auto;padding-top:6px}
 
 /* ── Scene states list ── */
 .state-list{padding:0}
