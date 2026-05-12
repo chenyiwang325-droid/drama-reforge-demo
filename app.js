@@ -214,11 +214,12 @@ function closeModal(id) { document.getElementById(id).classList.remove('on'); }
 function createAndEnter() { closeModal('newProjDlg'); enterProject('p1'); }
 
 // ── Asset edit dialog ──
-function openAssetEdit(type, cnName, enName, desc, prompt, imgSrc) {
+function openAssetEdit(type, cnName, enName, descOrig, descTrans, prompt, imgSrc) {
   document.getElementById('ae-type').textContent = type;
   document.getElementById('ae-name').value = cnName || '';
   document.getElementById('ae-name-en').value = enName || '';
-  document.getElementById('ae-desc').value = desc || '';
+  document.getElementById('ae-desc-orig').value = descOrig || '';
+  document.getElementById('ae-desc-trans').value = descTrans || '';
   document.getElementById('ae-prompt').value = prompt || '';
   var preview = document.getElementById('ae-preview');
   if (preview) {
