@@ -81,7 +81,8 @@ function createSegEl(seg) {
         '<div style="margin-top:8px"><button class="b bg" style="font-size:11px;padding:2px 8px" onclick="openRefOverlay(this)">+ 添加参考</button></div>' +
       '</div>' +
       '<div class="seg-right">' +
-        '<div class="vid-box">' + (seg.vi > 0 ? '<div class="hist-wrap" data-hist="SEG' + vn + '_video" data-hist-vid="1" onclick="toggleHist(this)"><video src="assets/video/S01E02_SEG' + vn + '.mp4" controls playsinline></video></div>' : '<span style="color:#555;font-size:12px">暂无视频</span>') + '</div>' +
+        '<div class="vid-box">' + (seg.vi > 0 ? '<video src="assets/video/S01E02_SEG' + vn + '.mp4" controls playsinline></video>' : '<span style="color:#555;font-size:12px">暂无视频</span>') + '</div>' +
+        (seg.vi > 0 ? '<div class="vid-hist" data-hist-vid="SEG' + vn + '_video"></div>' : '') +
         '<div class="seg-actions">' +
           '<div class="seg-acts-left">' +
             
@@ -334,6 +335,36 @@ function initHistPanels() {
     }
     pop.innerHTML = buildHistHTML(key, isVideo);
   });
+  // Video history panels for segments
+  document.querySelectorAll('.vid-hist[data-hist-vid]').forEach(function(el) {
+    var key = el.getAttribute('data-hist-vid');
+    var items = HIST[key];
+    if (!items || items.length === 0) { el.innerHTML = ''; return; }
+    var html = '<div class="vid-hist-title"><span>生成历史 (' + items.length + ')</span></div><div class="vid-hist-list">';
+    items.forEach(function(h) {
+      var cls = h.active ? 'vid-hist-item active' : 'vid-hist-item';
+      html += '<div class="' + cls + '" onclick="selectVidHist(this,\'' + h.src + '\')">';
+      html += '<video src="' + h.src + '" muted preload="metadata"></video>';
+      html += '<div class="vid-hist-item-info"><div class="vid-hist-item-label">' + h.label + '</div></div>';
+      if (h.active) html += '<div class="vid-hist-item-badge">使用中</div>';
+      html += '</div>';
+    });
+    html += '</div>';
+    el.innerHTML = html;
+  });
+}
+
+function selectVidHist(item, src) {
+  var segCard = item.closest('.seg-gen');
+  var vidBox = segCard.querySelector('.vid-box video');
+  if (vidBox) vidBox.src = src;
+  // Update active states
+  item.parentElement.querySelectorAll('.vid-hist-item').forEach(function(it) { it.classList.remove('active'); var b = it.querySelector('.vid-hist-item-badge'); if (b) b.remove(); });
+  item.classList.add('active');
+  var badge = document.createElement('div');
+  badge.className = 'vid-hist-item-badge';
+  badge.textContent = '使用中';
+  item.appendChild(badge);
 }
 
 // ── Modal management ──
