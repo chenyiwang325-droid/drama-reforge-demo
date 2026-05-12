@@ -342,7 +342,7 @@ function closeModal(id) { document.getElementById(id).classList.remove('on'); }
 function createAndEnter() { closeModal('newProjDlg'); enterProject('p1'); }
 
 // ── Asset edit dialog ──
-function openAssetEdit(type, cnName, enName, descOrig, descTrans, prompt, imgSrc) {
+function openAssetEdit(type, cnName, enName, descOrig, descTrans, prompt, imgSrc, histKey) {
   document.getElementById('ae-type').textContent = type;
   document.getElementById('ae-name').value = cnName || '';
   document.getElementById('ae-name-en').value = enName || '';
@@ -353,7 +353,43 @@ function openAssetEdit(type, cnName, enName, descOrig, descTrans, prompt, imgSrc
   if (preview) {
     preview.innerHTML = imgSrc ? '<img src="' + imgSrc + '" style="width:100%;height:100%;object-fit:cover;display:block">' : '生成结果';
   }
+  // History panel
+  var histList = document.getElementById('ae-hist-list');
+  var histCount = document.getElementById('ae-hist-count');
+  var items = histKey && HIST[histKey] ? HIST[histKey] : [];
+  if (histCount) histCount.textContent = items.length ? '(' + items.length + ')' : '';
+  if (histList) {
+    if (items.length === 0) {
+      histList.innerHTML = '<div style="text-align:center;font-size:11px;color:var(--t4);padding:12px 0">暂无历史记录</div>';
+    } else {
+      var html = '<div style="display:flex;flex-direction:column;gap:6px">';
+      items.forEach(function(h, i) {
+        var border = h.active ? 'border:2px solid var(--ac)' : 'border:1px solid var(--bd)';
+        html += '<div style="display:flex;align-items:center;gap:8px;padding:4px;border-radius:4px;' + border + ';cursor:pointer;background:var(--bg1)" onclick="applyHistVersion(this,\'' + h.src + '\')" title="点击使用此版本">';
+        html += '<div style="width:80px;aspect-ratio:21/9;overflow:hidden;border-radius:3px;flex-shrink:0;background:var(--bg3)"><img src="' + h.src + '" style="width:100%;height:100%;object-fit:cover;display:block"></div>';
+        html += '<div style="flex:1;min-width:0"><div style="font-size:11px;font-weight:600;color:var(--t1)">' + h.label + '</div>';
+        html += '<div style="font-size:10px;color:var(--t3);margin-top:2px">' + (h.active ? '当前使用中' : '点击切换') + '</div></div>';
+        if (h.active) html += '<div style="font-size:10px;color:var(--ac);font-weight:600;flex-shrink:0">使用中</div>';
+        html += '</div>';
+      });
+      html += '</div>';
+      histList.innerHTML = html;
+    }
+  }
   openModal('assetEditDlg');
+}
+
+function applyHistVersion(el, src) {
+  var preview = document.getElementById('ae-preview');
+  if (preview) preview.innerHTML = '<img src="' + src + '" style="width:100%;height:100%;object-fit:cover;display:block">';
+  // Update active states
+  var histList = document.getElementById('ae-hist-list');
+  histList.querySelectorAll('[style*="border"]').forEach(function(row) {
+    row.style.border = '1px solid var(--bd)';
+    var badge = row.querySelector('div[style*="ac"]');
+    if (badge) { badge.textContent = ''; badge.style.color = ''; }
+  });
+  el.style.border = '2px solid var(--ac)';
 }
 
 // ── Reference overlay ──
