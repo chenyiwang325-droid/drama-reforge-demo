@@ -81,7 +81,7 @@ function createSegEl(seg) {
         '<div style="margin-top:8px"><button class="b bg" style="font-size:11px;padding:2px 8px" onclick="openRefOverlay(this)">+ 添加参考</button></div>' +
       '</div>' +
       '<div class="seg-right">' +
-        '<div class="vid-box">' + (seg.vi > 0 ? '<video src="assets/video/S01E02_SEG' + vn + '.mp4" controls playsinline></video>' : '<span style="color:#555;font-size:12px">暂无视频</span>') + '</div>' +
+        '<div class="vid-box">' + (seg.vi > 0 ? '<div class="hist-wrap" data-hist="SEG' + vn + '_video" data-hist-vid="1" onclick="toggleHist(this)"><video src="assets/video/S01E02_SEG' + vn + '.mp4" controls playsinline></video></div>' : '<span style="color:#555;font-size:12px">暂无视频</span>') + '</div>' +
         '<div class="seg-actions">' +
           '<div class="seg-acts-left">' +
             
@@ -208,6 +208,134 @@ function toggleAll(el) {
   uBB();
 }
 
+// ── Generation History ──
+var HIST = {
+  'Elena_Outfit1': [
+    {src:'assets/img/Elena_Outfit1.jpg', label:'v3 当前', active:true},
+    {src:'assets/img/Elena_Outfit2.jpg', label:'v2 05-10'},
+    {src:'assets/img/Elena_Outfit3.jpg', label:'v1 05-09'}
+  ],
+  'Elena_Outfit2': [
+    {src:'assets/img/Elena_Outfit2.jpg', label:'v2 当前', active:true},
+    {src:'assets/img/Elena_Outfit1.jpg', label:'v1 05-09'}
+  ],
+  'Elena_Outfit3': [
+    {src:'assets/img/Elena_Outfit3.jpg', label:'v4 当前', active:true},
+    {src:'assets/img/Victor_BlackSuitGreyShirt.jpg', label:'v3 05-11'},
+    {src:'assets/img/Elena_Outfit1.jpg', label:'v2 05-10'},
+    {src:'assets/img/Elena_Outfit2.jpg', label:'v1 05-09'}
+  ],
+  'Elena_Outfit7': [
+    {src:'assets/img/Elena_Outfit31.jpg', label:'v2 当前', active:true},
+    {src:'assets/img/Elena_Outfit1.jpg', label:'v1 05-09'}
+  ],
+  'Victor_BlackSuit': [
+    {src:'assets/img/Victor_BlackSuitGreyShirt.jpg', label:'v3 当前', active:true},
+    {src:'assets/img/Victor_BurgundySuit.jpg', label:'v2 05-10'},
+    {src:'assets/img/Elena_Outfit1.jpg', label:'v1 05-09'}
+  ],
+  'Victor_Burgundy': [
+    {src:'assets/img/Victor_BurgundySuit.jpg', label:'v2 当前', active:true},
+    {src:'assets/img/Victor_BlackSuitGreyShirt.jpg', label:'v1 05-09'}
+  ],
+  'StarleafHotel_DayBright': [
+    {src:'assets/img/StarleafHotelLobbyAndCorridor.jpg', label:'v3 当前', active:true},
+    {src:'assets/img/StarleafHotelLobbyAndCorridor_DayReception.jpg', label:'v2 05-10'},
+    {src:'assets/img/Starleaf Hotel Room.jpg', label:'v1 05-09'}
+  ],
+  'StarleafHotel_DayReception': [
+    {src:'assets/img/StarleafHotelLobbyAndCorridor_DayReception.jpg', label:'v2 当前', active:true},
+    {src:'assets/img/StarleafHotelLobbyAndCorridor.jpg', label:'v1 05-09'}
+  ],
+  'StarleafHotel_NightBlue': [
+    {src:'assets/img/StarleafHotelRoom_NightBlue.jpg', label:'v2 当前', active:true},
+    {src:'assets/img/StarleafHotelLobbyAndCorridor.jpg', label:'v1 05-09'}
+  ],
+  'JiangVilla_DayBright': [
+    {src:'assets/img/StarleafHotelLobbyAndCorridor.jpg', label:'v2 当前', active:true},
+    {src:'assets/img/WeddingVenue_DayFloral.jpg', label:'v1 05-09'}
+  ],
+  'JiangVilla_EveningWarm': [
+    {src:'assets/img/Starleaf Hotel Room.jpg', label:'v2 当前', active:true},
+    {src:'assets/img/StarleafHotelLobbyAndCorridor.jpg', label:'v1 05-09'}
+  ],
+  'JiangVilla_NightDim': [
+    {src:'assets/img/StarleafHotelRoom_NightBlue.jpg', label:'v2 当前', active:true},
+    {src:'assets/img/Starleaf Hotel Room.jpg', label:'v1 05-09'}
+  ],
+  'SEG01_video': [
+    {src:'assets/video/S01E02_SEG01.mp4', label:'v2 当前', active:true},
+    {src:'assets/video/S01E02_SEG02.mp4', label:'v1 05-10'}
+  ],
+  'SEG02_video': [
+    {src:'assets/video/S01E02_SEG02.mp4', label:'v3 当前', active:true},
+    {src:'assets/video/S01E02_SEG01.mp4', label:'v2 05-11'},
+    {src:'assets/video/S01E02_SEG03.mp4', label:'v1 05-10'}
+  ],
+  'SEG03_video': [
+    {src:'assets/video/S01E02_SEG03.mp4', label:'v2 当前', active:true},
+    {src:'assets/video/S01E02_SEG01.mp4', label:'v1 05-09'}
+  ],
+  'SEG04_video': [
+    {src:'assets/video/S01E02_SEG04.mp4', label:'v2 当前', active:true},
+    {src:'assets/video/S01E02_SEG05.mp4', label:'v1 05-10'}
+  ]
+};
+
+function buildHistHTML(key, isVideo) {
+  var items = HIST[key];
+  if (!items || items.length === 0) return '<div class="hist-empty">暂无历史记录</div>';
+  var html = '<div class="hist-pop-title"><span>生成历史 (' + items.length + ')</span><button class="hist-pop-close" onclick="event.stopPropagation();closeHist(this)">&times;</button></div><div class="hist-grid">';
+  items.forEach(function(h, i) {
+    var cls = h.active ? 'hist-item active' : 'hist-item';
+    if (isVideo) {
+      html += '<div class="' + cls + '" onclick="event.stopPropagation();selectHist(this,\'' + h.src + '\',true)" title="' + h.label + '"><video src="' + h.src + '" muted></video><div class="hist-item-label">' + h.label + '</div></div>';
+    } else {
+      html += '<div class="' + cls + '" onclick="event.stopPropagation();selectHist(this,\'' + h.src + '\',false)" title="' + h.label + '"><img src="' + h.src + '" alt="' + h.label + '"><div class="hist-item-label">' + h.label + '</div></div>';
+    }
+  });
+  html += '</div>';
+  return html;
+}
+
+function toggleHist(el) {
+  var wrap = el.classList.contains('hist-wrap') ? el : el.closest('.hist-wrap');
+  if (!wrap) return;
+  var pop = wrap.querySelector('.hist-pop');
+  if (!pop) return;
+  document.querySelectorAll('.hist-pop.on').forEach(function(p) { if (p !== pop) p.classList.remove('on'); });
+  pop.classList.toggle('on');
+}
+
+function closeHist(btn) {
+  btn.closest('.hist-pop').classList.remove('on');
+}
+
+function selectHist(item, src, isVideo) {
+  var pop = item.closest('.hist-pop');
+  var wrap = pop.parentElement;
+  pop.querySelectorAll('.hist-item').forEach(function(it) { it.classList.remove('active'); });
+  item.classList.add('active');
+  var target = isVideo ? wrap.querySelector('video') : wrap.querySelector('img');
+  if (target) target.src = src;
+  pop.classList.remove('on');
+}
+
+function initHistPanels() {
+  document.querySelectorAll('.hist-wrap').forEach(function(wrap) {
+    var key = wrap.getAttribute('data-hist');
+    var isVideo = wrap.getAttribute('data-hist-vid') === '1';
+    if (!key || !HIST[key]) return;
+    var pop = wrap.querySelector('.hist-pop');
+    if (!pop) {
+      pop = document.createElement('div');
+      pop.className = 'hist-pop';
+      wrap.appendChild(pop);
+    }
+    pop.innerHTML = buildHistHTML(key, isVideo);
+  });
+}
+
 // ── Modal management ──
 function openModal(id) { document.getElementById(id).classList.add('on'); }
 function closeModal(id) { document.getElementById(id).classList.remove('on'); }
@@ -313,6 +441,9 @@ function toggleCfgPop(el) {
 document.addEventListener('click', function(e) {
   if (!e.target.closest('.seg-cfg-pop') && !e.target.closest('.seg-act-cfg-trigger')) {
     document.querySelectorAll('.seg-cfg-pop.open').forEach(function(p) { p.classList.remove('open'); });
+  }
+  if (!e.target.closest('.hist-pop') && !e.target.closest('.hist-wrap')) {
+    document.querySelectorAll('.hist-pop.on').forEach(function(p) { p.classList.remove('on'); });
   }
 });
 
@@ -492,6 +623,7 @@ function batchGenSelected() {
 // ── Init ──
 document.addEventListener('DOMContentLoaded', function() {
   renderSegments();
+  initHistPanels();
   // Build episode boards
   function buildBoard(id, total, done) {
     var b = document.getElementById(id);

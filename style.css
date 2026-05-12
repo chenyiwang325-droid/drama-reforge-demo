@@ -307,6 +307,23 @@ body{font-family:'DM Sans','Noto Sans SC',sans-serif;background:var(--bg);color:
 .ref-item-name{padding:4px 8px;font-size:10px;font-weight:600;text-align:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .ref-ft{padding:12px 20px;border-top:1px solid var(--bd);display:flex;justify-content:space-between;align-items:center}
 
+/* ── History Panel ── */
+.hist-wrap{position:relative;cursor:pointer}
+.hist-wrap:hover::after{content:'历史';position:absolute;bottom:4px;right:4px;background:rgba(0,0,0,.6);color:#fff;font-size:10px;padding:1px 6px;border-radius:3px;pointer-events:none}
+.hist-pop{display:none;position:absolute;bottom:calc(100% + 8px);left:0;right:0;background:var(--bg1);border:1px solid var(--bd);border-radius:8px;box-shadow:0 4px 20px rgba(0,0,0,.1);z-index:50;padding:10px}
+.hist-pop.on{display:block}
+.hist-pop-title{font-size:11px;font-weight:600;color:var(--t2);margin-bottom:6px;display:flex;justify-content:space-between;align-items:center}
+.hist-pop-close{background:none;border:none;font-size:14px;cursor:pointer;color:var(--t3);padding:0 2px}
+.hist-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:6px}
+.hist-item{position:relative;border:2px solid var(--bd);border-radius:4px;overflow:hidden;cursor:pointer;aspect-ratio:21/9;transition:.1s}
+.hist-item:hover{border-color:var(--ac)}
+.hist-item.active{border-color:var(--ac);box-shadow:0 0 0 1px var(--acd)}
+.hist-item img,.hist-item video{width:100%;height:100%;object-fit:cover;display:block}
+.hist-item-label{position:absolute;bottom:0;left:0;right:0;background:rgba(0,0,0,.55);color:#fff;font-size:9px;padding:1px 4px;text-align:center}
+.hist-btn{font-size:11px;color:var(--t3);cursor:pointer;background:none;border:none;padding:2px 6px;font-family:inherit}
+.hist-btn:hover{color:var(--ac)}
+.hist-empty{font-size:11px;color:var(--t4);text-align:center;padding:8px 0}
+
 /* ── Scrollbar ── */
 ::-webkit-scrollbar{width:5px}
 ::-webkit-scrollbar-track{background:none}
