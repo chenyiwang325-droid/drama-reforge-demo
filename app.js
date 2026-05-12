@@ -82,10 +82,9 @@ function createSegEl(seg) {
       '</div>' +
       '<div class="seg-right">' +
         '<div class="vid-box">' + (seg.vi > 0 ? '<video src="assets/video/S01E02_SEG' + vn + '.mp4" controls playsinline></video>' : '<span style="color:#555;font-size:12px">暂无视频</span>') + '</div>' +
-        (seg.vi > 0 ? '<div class="vid-hist" data-hist-vid="SEG' + vn + '_video"></div>' : '') +
         '<div class="seg-actions">' +
           '<div class="seg-acts-left">' +
-            
+            '<button class="seg-act-tag" onclick="openVidHist(this)">历史</button>' +
             '<button class="seg-act-tag">多参考 ▾</button>' +
             '<button class="seg-act-cfg-trigger" onclick="toggleCfgPop(this)"><span>Seedance 2.0</span><span class="cfg-sep">|</span><span>9:16</span><span class="cfg-sep">|</span><span>1080p</span><span class="cfg-sep">|</span><span>5s</span><span class="cfg-sep">|</span><span>1条</span></button>' +
           '</div>' +
@@ -335,31 +334,47 @@ function initHistPanels() {
     }
     pop.innerHTML = buildHistHTML(key, isVideo);
   });
-  // Video history panels for segments
-  document.querySelectorAll('.vid-hist[data-hist-vid]').forEach(function(el) {
-    var key = el.getAttribute('data-hist-vid');
-    var items = HIST[key];
-    if (!items || items.length === 0) { el.innerHTML = ''; return; }
-    var html = '<div class="vid-hist-title"><span>生成历史 (' + items.length + ')</span></div><div class="vid-hist-list">';
+}
+
+var _vidHistTarget = null;
+
+function openVidHist(btn) {
+  var segCard = btn.closest('.seg-gen');
+  if (!segCard) return;
+  _vidHistTarget = segCard.querySelector('.vid-box video');
+  // Find history key from segment data
+  var segId = segCard.querySelector('.seg-gen-id');
+  var id = segId ? segId.textContent.trim() : '';
+  var vn = id.replace('SEG','');
+  var key = 'SEG' + (vn.length < 2 ? '0' + vn : vn) + '_video';
+  var items = HIST[key] || [];
+  var body = document.getElementById('vidHistBody');
+  if (items.length === 0) {
+    body.innerHTML = '<div style="text-align:center;font-size:13px;color:var(--t4);padding:24px 0">暂无历史生成记录</div>';
+  } else {
+    var html = '<div style="display:flex;flex-direction:column;gap:8px">';
     items.forEach(function(h) {
       var cls = h.active ? 'vid-hist-item active' : 'vid-hist-item';
-      html += '<div class="' + cls + '" onclick="selectVidHist(this,\'' + h.src + '\')">';
-      html += '<video src="' + h.src + '" muted preload="metadata"></video>';
-      html += '<div class="vid-hist-item-info"><div class="vid-hist-item-label">' + h.label + '</div></div>';
+      html += '<div class="' + cls + '" onclick="selectVidHistModal(this,\'' + h.src + '\')">';
+      html += '<video src="' + h.src + '" muted preload="metadata" style="width:80px;flex-shrink:0;border-radius:3px;background:#000"></video>';
+      html += '<div style="flex:1;min-width:0"><div style="font-size:12px;font-weight:600;color:var(--t1)">' + h.label + '</div>';
+      html += '<div style="font-size:11px;color:var(--t3);margin-top:2px">' + (h.active ? '当前使用中' : '点击切换') + '</div></div>';
       if (h.active) html += '<div class="vid-hist-item-badge">使用中</div>';
       html += '</div>';
     });
     html += '</div>';
-    el.innerHTML = html;
-  });
+    body.innerHTML = html;
+  }
+  openModal('vidHistDlg');
 }
 
-function selectVidHist(item, src) {
-  var segCard = item.closest('.seg-gen');
-  var vidBox = segCard.querySelector('.vid-box video');
-  if (vidBox) vidBox.src = src;
-  // Update active states
-  item.parentElement.querySelectorAll('.vid-hist-item').forEach(function(it) { it.classList.remove('active'); var b = it.querySelector('.vid-hist-item-badge'); if (b) b.remove(); });
+function selectVidHistModal(item, src) {
+  if (_vidHistTarget) _vidHistTarget.src = src;
+  item.parentElement.querySelectorAll('.vid-hist-item').forEach(function(it) {
+    it.classList.remove('active');
+    var b = it.querySelector('.vid-hist-item-badge'); if (b) b.remove();
+    var sub = it.querySelector('div[style*="color:var(--t3)"]'); if (sub) sub.textContent = '点击切换';
+  });
   item.classList.add('active');
   var badge = document.createElement('div');
   badge.className = 'vid-hist-item-badge';
